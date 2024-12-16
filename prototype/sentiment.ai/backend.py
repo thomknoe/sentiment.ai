@@ -79,7 +79,7 @@ def analyze():
         keywords = keyword_extractor.extract_keywords(text, 
                                                       keyphrase_ngram_range=(1, 2), 
                                                       stop_words='english', 
-                                                      top_n=5)
+                                                      top_n=10)
 
         # Ensure keywords are plain strings
         keywords_cleaned = [kw[0] for kw in keywords]
