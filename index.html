@@ -20,7 +20,9 @@
       </div>
 
       <textarea id="feedback" placeholder="Type in the feedback during the meeting"></textarea>
-
+      <button id="record-button">
+        <img src="icon/record.png" alt="record" class="record-icon">
+      </button>
       <div class="slider-container">
         <label for="entropy">Entropy</label>
         <input id="entropy" type="range" min="0" max="1" step="0.1">
@@ -63,7 +65,8 @@
     <div class="container">
       <img id="back-to-home" src="icon/back.png" alt="Back" class="back-icon">
       <h3>New Recording</h3>
-      <p class="caption">Recorded on</p>
+      <p class="caption">Recorded on Oct 30th, 2024</p>
+      <div class="caption"></div>
     </div>
     <div class="emotion-container">
       <div class="emotion-row">
@@ -87,7 +90,7 @@
       <!-- Card 1 -->
       <div class="card">
         <div class="icon">
-          🎨 <!-- Replace with an actual icon -->
+          <img src="icon/color_sensing.png" alt="Color Sensing">
         </div>
         <div class="title">Color Sensing</div>
       </div>
@@ -95,7 +98,7 @@
       <!-- Card 2 -->
       <div class="card">
         <div class="icon">
-          ℹ️ <!-- Replace with an actual icon -->
+          <img src="icon/info_arch.png" alt="Info Arch">
         </div>
         <div class="title">Information Architecture</div>
       </div>
@@ -103,7 +106,7 @@
       <!-- Card 3 -->
       <div class="card">
         <div class="icon">
-          🎨 <!-- Replace with an actual icon -->
+          <img src="icon/responsiveness.png" alt="Responsiveness">
         </div>
         <div class="title">Responsiveness</div>
       </div>
@@ -111,9 +114,9 @@
       <!-- Card 4 -->
       <div class="card">
         <div class="icon">
-          ℹ️ <!-- Replace with an actual icon -->
+          <img src="icon/color_sensing.png" alt="Color Sensing">
         </div>
-        <div class="title">Information Architecture</div>
+        <div class="title">Branding</div>
       </div>
     </div>
   </div>
@@ -128,11 +131,16 @@
 
   <!--Detailed Analysis-->
   <div id="detailed-analysis-page" class="page">
-    <img id="back-to-home" src="icon/back.png" alt="Back" class="back-icon">
     <div class="container">
-      <h3>Saved Client</h3>
+      <img id="back-to-home" src="icon/back.png" alt="Back" class="back-icon">
+      <h3>Color</h3>
+      <p class="caption">Recorded on Oct 30th, 2024</p>
+      <div class="caption"></div>
+      <div class="textMentioned">“I like this blue but I think it’s too vibrant, could you adjust its saturation?”</div>
     </div>
   </div>
+
+  
 
   <script>
   // Array to store feedback and timestamp data
@@ -178,28 +186,37 @@
       document.getElementById('past-recordings-page').classList.add('active');
     };
 
-    // not working
     // Switch to Home Page Page
     document.getElementById('new').onclick = () => {
-      parent.postMessage({ pluginMessage: { type: 'switch-to-home' } }, '*');
       document.getElementById('past-recordings-page').classList.remove('active');
       document.getElementById('new-recording-page').classList.add('active');
     };
 
-    //not working
     document.querySelector('.profile-icon').onclick = () => {
       document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
       document.getElementById('profile-page').classList.add('active');
     };
 
   // Go back to previous page
-    document.querySelectorAll('#back-to-home').forEach(button => {
-      button.onclick = () => {
+  document.querySelectorAll('#back-to-home').forEach(button => {
+    button.onclick = () => {
       document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-      const lastVisitedPage = document.querySelector('.page.active');
-      lastVisitedPage.classList.add('active');
-      };
-    });
+      document.getElementById('new-recording-page').classList.add('active');
+    };
+  });
+
+  // Go to Color Page
+  document.getElementById('new').onclick = () => {
+    document.getElementById('past-recordings-page').classList.remove('active');
+    document.getElementById('new-recording-page').classList.add('active');
+  };
+  // Go to Detailed Analysis Page when clicking on a card
+  document.querySelectorAll('.card').forEach(card => {
+    card.onclick = () => {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      document.getElementById('detailed-analysis-page').classList.add('active');
+    };
+  });
   </script>
 </body>
 </html>
