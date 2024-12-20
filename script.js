@@ -112,7 +112,7 @@ function createNewTab(data, text, note) {
     <div class="full-text-container card">
     <span class="tooltip-icon" title="The KeyBERT model is used for keyword extraction. KeyBERT is based on BERT embeddings and is designed to extract keywords or keyphrases from the text using pre-trained BERT-based models.KeyBERT works by first embedding the input text into a high-dimensional vector space and then using this representation to identify key terms that are semantically important. The top n keyphrases are returned.">ⓘ</span>
       <h3>Original Text & Keywords:</h3>
-      <p class="original-text">${highlightedText}</p>      
+      <p class="original-text">${text}</p>      
       <div class="keywords-container">
         <div class="keyword-pills">
           ${keywords
@@ -161,6 +161,8 @@ function createNewTab(data, text, note) {
 
   resultsContainer.appendChild(tabContent);
   switchToTab(tabContent.id);
+
+  addHoverEffectToPills(keywords);
 }
 
 // Function to switch between tabs
@@ -171,6 +173,30 @@ function switchToTab(tabId) {
 
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.classList.toggle("active-tab", button.dataset.tabId === tabId);
+  });
+}
+
+// Add event listeners to keyword pills
+function addHoverEffectToPills(keywords) {
+  const pills = document.querySelectorAll(".pill");
+  const originalTextElement = document.querySelector(".original-text");
+
+  pills.forEach((pill) => {
+    const keyword = pill.dataset.keyword.toLowerCase();
+
+    pill.addEventListener("mouseover", () => {
+      // Highlight the keyword in the original text
+      const regex = new RegExp(`\\b${keyword}\\b`, "gi");
+      originalTextElement.innerHTML = originalTextElement.textContent.replace(
+        regex,
+        (match) => `<span class="highlight">${match}</span>`
+      );
+    });
+
+    pill.addEventListener("mouseout", () => {
+      // Remove highlights
+      originalTextElement.innerHTML = originalTextElement.textContent;
+    });
   });
 }
 
