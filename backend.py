@@ -1,3 +1,5 @@
+### Utilized assistance from OpenAIs ChatGPT to write and implement this code
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
