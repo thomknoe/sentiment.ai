@@ -178,12 +178,31 @@ button:hover {
 
 }
 
+.text-word {
+  transition: background-color 0.3s ease;
+}
+
+.text-word.highlight {
+  background-color: yellow; /* Highlight color */
+}
 
 .emotion-bars {
   margin: 30px 0; /* More spacing */
   line-height: 30px;
   text-align: left;
+  
+}
+
+.bar-container {
   background-color: black;
+  width: 100%;
+  height: 20px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.bar {
+  height: 100%;
 }
 
 .emotion-row {
@@ -209,7 +228,7 @@ button:hover {
   flex: 1;
   height: 20px;
   border-radius: 5px;
-  background-color: #000000; /* Neutral background for bar container */
+  background-color: #444; /* Neutral background for bar container */
   overflow: hidden;
   position: relative;
 }
@@ -281,6 +300,10 @@ button:hover {
 
 .highlight {
   transition: background-color 0.3s ease;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  padding: 1px 3px;
+  border-radius: 10px;
 }
 
 /* Responsive design for smaller screens */

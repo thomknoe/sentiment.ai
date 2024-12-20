@@ -112,7 +112,7 @@ function createNewTab(data, text, note) {
     <div class="full-text-container card">
     <span class="tooltip-icon" title="The KeyBERT model is used for keyword extraction. KeyBERT is based on BERT embeddings and is designed to extract keywords or keyphrases from the text using pre-trained BERT-based models.KeyBERT works by first embedding the input text into a high-dimensional vector space and then using this representation to identify key terms that are semantically important. The top n keyphrases are returned.">ⓘ</span>
       <h3>Original Text & Keywords:</h3>
-      <p>"${text}"</p>
+      <p class="original-text">${highlightedText}</p>      
       <div class="keywords-container">
         <div class="keyword-pills">
           ${keywords
@@ -135,11 +135,13 @@ function createNewTab(data, text, note) {
                 <span class="emotion-label">${capitalize(emotion)} ${Math.round(
                 score * 100
               )}%</span>
-                <div class="bar" style="width: ${Math.round(
-                  score * 100
-                )}%; background-color: rgba(255,255,255,${
+                <div class="bar-container" style="background-color: black; width: 100%; height: 20px; position: relative;">
+                  <div class="bar" style="width: ${Math.round(
+                    score * 100
+                  )}%; background-color: rgba(255,255,255,${
                 1 - index * 0.2
-              })"></div>
+              }); height: 100%;"></div>
+                </div>
               </div>`
           )
           .join("")}
