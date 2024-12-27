@@ -8,11 +8,11 @@ SentimentAI, is an AI tool designed to analyze text data or transcribed raw dial
 2. Download the dependencies for this project though pip `pip install flask flask-cors transformers torch torchvision keybert sentence-transformers scikit-learn`
 3. Run the python Flask app `python backend.py`
 4. Host the index.html on a live server, you may do this through the Go Live addon in VS Code
-5. Open the app and input the label and text, ensure you are on a web API browser for voice recognition
+5. Open the app and input the text and ensure you are on a web API browser for voice recognition
 
 # Files
 
-- index.html - Primary app webpage
-- styles.css - Styling for the HTML
-- backend.py - Python Flask app for backend server and API calls
-- script.js - Sends calls to backend endpoints and updates the frontend
+- `index.html`: Primary app webpage
+- `styles.css`: Styling for the HTML
+- `backend.py`: Python Flask app for backend server and API calls
+- `script.js`: Sends calls to backend endpoints and updates the frontend

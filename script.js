@@ -4,7 +4,7 @@ const analyzeButton = document.getElementById("analyzeButton");
 const sentimentResult = document.getElementById("sentimentResult");
 const keywordsResult = document.getElementById("keywordsResult");
 const designRelevanceResult = document.getElementById("designRelevanceResult");
-const fullTextDisplay = document.getElementById("fullTextDisplay"); // Container for full text with highlights
+const fullTextDisplay = document.getElementById("fullTextDisplay");
 const tabsContainer = document.getElementById("tabs");
 const resultsContainer = document.getElementById("resultsContainer");
 let tabCounter = 0;
@@ -15,70 +15,61 @@ if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
-  recognition.lang = "en-US"; // Set the language
-  recognition.interimResults = false; // Only final results
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
 } else {
   alert("Speech Recognition is not supported in your browser.");
 }
 
-// Animated ellipsis variables
 let ellipsisInterval;
 let ellipsisState = 0;
 
 function startEllipsisAnimation() {
   ellipsisState = 0;
   ellipsisInterval = setInterval(() => {
-    ellipsisState = (ellipsisState + 1) % 4; // Cycle through 0, 1, 2, 3
-    const ellipsis = ".".repeat(ellipsisState); // Create the ellipsis string
+    ellipsisState = (ellipsisState + 1) % 4;
+    const ellipsis = ".".repeat(ellipsisState);
     inputText.value = `Recording in progress${ellipsis}`;
-  }, 500); // Update every 500ms
+  }, 500);
 }
 
 function stopEllipsisAnimation() {
   clearInterval(ellipsisInterval);
-  inputText.value = ""; // Clear the progress message
+  inputText.value = "";
 }
 
-// Start recording
 recordButton.addEventListener("click", () => {
   if (recognition) {
-    inputText.value = "Recording in progress."; // Initial message
+    inputText.value = "Recording in progress.";
     startEllipsisAnimation();
     recognition.start();
   }
 });
 
-// Stop recording and process speech
 recognition.addEventListener("result", (event) => {
   stopEllipsisAnimation();
   const transcript = event.results[0][0].transcript;
-  inputText.value = transcript; // Append the spoken text to the textarea
+  inputText.value = transcript;
 });
 
-// Function to create a new tab with results
 function createNewTab(data, text, note) {
   tabCounter++;
 
-  // Create a new tab button
   const tabButton = document.createElement("button");
   tabButton.textContent = `${note}`;
   tabButton.className = "tab-button";
   tabButton.dataset.tabId = `tab-${tabCounter}`;
 
-  // Add click event for switching tabs
   tabButton.addEventListener("click", () => {
     switchToTab(tabButton.dataset.tabId);
   });
 
-  // Append tab button to the tabs container
   tabsContainer.appendChild(tabButton);
 
-  // Create a result panel for the tab
   const tabContent = document.createElement("div");
   tabContent.id = `tab-${tabCounter}`;
   tabContent.className = "tab-content";
 
-  // Populate the result panel with analysis results directly from the data object
   const emotions = data.emotions || {};
   const topEmotions = Object.entries(emotions)
     .sort(([, aScore], [, bScore]) => bScore - aScore)
@@ -154,7 +145,6 @@ function createNewTab(data, text, note) {
     </div>
   `;
 
-  // Hide other tabs and show the new one
   document.querySelectorAll(".tab-content").forEach((content) => {
     content.style.display = "none";
   });
@@ -165,7 +155,6 @@ function createNewTab(data, text, note) {
   addHoverEffectToPills(keywords);
 }
 
-// Function to switch between tabs
 function switchToTab(tabId) {
   document.querySelectorAll(".tab-content").forEach((content) => {
     content.style.display = content.id === tabId ? "block" : "none";
@@ -176,7 +165,6 @@ function switchToTab(tabId) {
   });
 }
 
-// Add event listeners to keyword pills
 function addHoverEffectToPills(keywords) {
   const pills = document.querySelectorAll(".pill");
   const originalTextElement = document.querySelector(".original-text");
@@ -185,7 +173,6 @@ function addHoverEffectToPills(keywords) {
     const keyword = pill.dataset.keyword.toLowerCase();
 
     pill.addEventListener("mouseover", () => {
-      // Highlight the keyword in the original text
       const regex = new RegExp(`\\b${keyword}\\b`, "gi");
       originalTextElement.innerHTML = originalTextElement.textContent.replace(
         regex,
@@ -194,13 +181,11 @@ function addHoverEffectToPills(keywords) {
     });
 
     pill.addEventListener("mouseout", () => {
-      // Remove highlights
       originalTextElement.innerHTML = originalTextElement.textContent;
     });
   });
 }
 
-// Modify the analyzeButton click handler to include tab creation
 analyzeButton.addEventListener("click", async () => {
   const text = inputText.value.trim();
   const note = noteInput.value.trim();
@@ -223,7 +208,6 @@ analyzeButton.addEventListener("click", async () => {
     if (data.error) {
       alert(`Error: ${data.error}`);
     } else {
-      // Create a new tab with the results directly from the data
       createNewTab(data, text, note);
     }
   } catch (error) {
@@ -232,12 +216,10 @@ analyzeButton.addEventListener("click", async () => {
   }
 });
 
-// Function to capitalize strings
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Function to highlight keywords in text
 function highlightKeywords(text, keywords) {
   let highlightedText = text;
   keywords.forEach((keyword) => {
@@ -250,16 +232,15 @@ function highlightKeywords(text, keywords) {
   return highlightedText;
 }
 
-// Function to fade in highlights for a specific keyword
 function fadeInHighlights(keyword) {
   const highlights = document.querySelectorAll(".highlight");
   highlights.forEach((highlight) => {
     if (highlight.textContent.toLowerCase() === keyword.toLowerCase()) {
       highlight.style.transition = "background-color 0.3s ease";
-      highlight.style.backgroundColor = "#1a73e8"; // Highlight color
+      highlight.style.backgroundColor = "#1a73e8";
       setTimeout(() => {
         highlight.style.backgroundColor = "transparent";
-      }, 600); // Flash duration
+      }, 600);
     }
   });
 }
